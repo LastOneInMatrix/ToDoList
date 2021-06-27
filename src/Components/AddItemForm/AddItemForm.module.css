@@ -1,0 +1,12 @@
+.error {
+    border: red 1px solid;
+}
+.error-message {
+    color: red;
+    font-size: 10px;
+    font-style: italic;
+    text-decoration: overline;
+    line-height: 15px;
+    font-weight: bold;
+    white-space: pre-line;
+}
