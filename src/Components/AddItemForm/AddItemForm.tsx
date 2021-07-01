@@ -18,10 +18,7 @@ export function AddItemForm(props: AddItemFromPropsType) {
 
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
-        console.log(e.currentTarget.value);
-        setTittle(e.currentTarget.value)
-
+        setTittle(e.currentTarget.value);
     };
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);

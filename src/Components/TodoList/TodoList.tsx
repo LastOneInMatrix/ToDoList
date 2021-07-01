@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import TodoListStyle from './TodoList.module.css'
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {FilterValuesType} from '../../App';
+import {FilterValuesType} from '../../AppWithRedux';
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
@@ -56,7 +56,7 @@ export function TodoList(props: PropsType) {
                         props.changeTaskStatus(props.todoListID, t.id, e.currentTarget.checked);
                     }
                     const changeTaskTitleHandler = (newTitle: string) => {
-                        props.changeTitle(t.id, props.todoListID, newTitle);
+                        props.changeTitle(props.todoListID, t.id, newTitle);
                     }
 
                     return <li key={t.id} className={t.isDone ? TodoListStyle['is-done'] : ""}>
