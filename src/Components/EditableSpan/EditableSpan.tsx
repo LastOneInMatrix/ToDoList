@@ -4,12 +4,10 @@ import {TextField} from "@material-ui/core";
 type EditableSpanPropsType = {
     title: string;
     changeTitle: (newTitle: string) => void;
-    // taskId: string;
-    // todoListID: string; //todo лучше перенести на вверх что бы меньше пропсов принимать
 }
 
-export function     EditableSpan({title, ...props}: EditableSpanPropsType) {
-
+export const EditableSpan = React.memo(function({title, ...props}: EditableSpanPropsType) {
+    console.log('EditableSpan was called');
     const [editMode, setEditMode] = useState<boolean>(false); // TODO вторая фнункция созданная useState нужна для того что бы менять стейт
     const [localTitle, setLocalTitle] = useState<string>('');
 
@@ -38,4 +36,4 @@ export function     EditableSpan({title, ...props}: EditableSpanPropsType) {
             <span onDoubleClick={activateEditMode}>{title}</span>
 
     )
-}
+})

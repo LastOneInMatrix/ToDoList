@@ -11,7 +11,7 @@ type ErrorType = {
     isTrue: boolean;
 }
 
-export function AddItemForm(props: AddItemFromPropsType) {
+export const AddItemForm = React.memo((props: AddItemFromPropsType) => {
 
     const [tittle, setTittle] = useState<string>('');
     const [error, setError] = useState<null | ErrorType>(null);
@@ -21,7 +21,9 @@ export function AddItemForm(props: AddItemFromPropsType) {
         setTittle(e.currentTarget.value);
     };
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if(error !== null) {
+            setError(null)
+        }
        if(e.key === 'Enter') {
            addTask();
        }
@@ -37,6 +39,7 @@ export function AddItemForm(props: AddItemFromPropsType) {
             setTittle('');
         }
     };
+    console.log('addItemFormComponent')
     return <div>
         <TextField id="outlined-basic"
                    title={'Type text...'}
@@ -54,4 +57,4 @@ export function AddItemForm(props: AddItemFromPropsType) {
         </IconButton>
 
     </div>
-}
+})

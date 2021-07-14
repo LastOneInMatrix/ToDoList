@@ -34,10 +34,7 @@ type ChangeTitleAT = {
 export type ActionType = ChangeFilterAT | AddTodoListAT | DeleteTodoListAT | ChangeTitleAT;
 
 
-const initialState: Array<TodoListType> = [
-    {id: TODOLIST_ID, title: 'What to learn', filter: 'all'},
-    {id: TODOLIST_ID_1, title: 'What To Buy', filter: 'all'},
-]
+const initialState: Array<TodoListType> = []
 //mainReducer
 export const todoListsReducer = (todoLists: Array<TodoListType> = initialState, action: ActionType) => {
     switch (action.type) {
