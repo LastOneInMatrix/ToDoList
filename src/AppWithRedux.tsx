@@ -33,8 +33,7 @@ export  type TasksStateType = {
     [key: string]: Array<TaskType>;
 };
 
-function AppWithRedux() {
-
+export function AppWithRedux() {
     const tasks = useSelector<AppStateType, TasksStateType>(state => state.tasks);
     const todoLists = useSelector<AppStateType, Array<TodoListType>>(state => state.todoLists);
     const dispatch = useDispatch();
@@ -107,7 +106,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-            </AppBar>
+            </AppBar>   A
             <Container fixed>
                 <Grid container style={{padding: '20px'}} spacing={1}>
                     <AddItemForm addItem={addTodoList}/>

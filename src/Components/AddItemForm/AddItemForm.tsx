@@ -3,7 +3,7 @@ import {TextField} from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
 
-type AddItemFromPropsType = {
+export type AddItemFromPropsType = {
     addItem: (title: string) => void;
 };
 type ErrorType = {
