@@ -106,7 +106,7 @@ export function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-            </AppBar>   A
+            </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}} spacing={1}>
                     <AddItemForm addItem={addTodoList}/>

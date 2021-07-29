@@ -31,7 +31,6 @@ export const EditableSpan = React.memo(function({title, ...props}: EditableSpanP
                   {/*<input type={'text'} value={localTitle} onBlur={activateViewMode} autoFocus onChange={onChangeTitleHandler}/>*/}
                  <TextField id="outlined-basic" label="Задача" size={'small'} value={localTitle} onBlur={activateViewMode} autoFocus onChange={onChangeTitleHandler}  />
             </span>
-
             :
             <span onDoubleClick={activateEditMode}>{title}</span>
 

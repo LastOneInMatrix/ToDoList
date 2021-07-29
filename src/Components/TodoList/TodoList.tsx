@@ -4,7 +4,6 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {FilterValuesType} from '../../AppWithRedux';
 import {Button, IconButton} from "@material-ui/core";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
-import {v1} from "uuid";
 import {Task} from "./Task/Task";
 
 export type TaskType = {
@@ -61,7 +60,7 @@ export const TodoList = React.memo(function(props: PropsType) {
         <AddItemForm addItem={addTask}/>
         <ul style={{listStyle: 'none', padding: '5px'}}>
             {
-                tasks.map(t => <Task key={v1()} t={t} removeTask={props.removeTask} changeTitle={props.changeTitle} changeTaskStatus={props.changeTaskStatus} todoListID={props.todoListID}/>)
+                tasks.map((t) => <Task key={t.id} t={t} removeTask={props.removeTask} changeTitle={props.changeTitle} changeTaskStatus={props.changeTaskStatus} todoListID={props.todoListID}/>)
             }
         </ul>
         <div>
