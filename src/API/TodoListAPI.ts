@@ -29,25 +29,22 @@ type ResponseType<T = {}> = {
     "fieldsErrors"?:Array<string>,
     "resultCode": number
 };
-type UpdateTaskModelType = {
+export type UpdateTaskModelType = {
     title: string
     description: string
-    completed?: boolean
     status: number
     priority: number
     startDate:  null | string
     deadline:  null | string
 }
 
-
 export type TaskType = {
     description: string
     title: string
-    completed?: boolean
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: null | string
+    deadline: null | string
     id: string
     todoListId: string
     order: number
@@ -97,7 +94,7 @@ export const TodoListAPI = {
     createTask(toDoListId: string, title: string) {
         return instance.post<ResponseType<ItemTaskType>>(`todo-lists/${toDoListId}/tasks`, {title})
     },
-    changeTaskTitle(toDoListId: string, taskId: string, model: UpdateTaskModelType){
+    updateTask(toDoListId: string, taskId: string, model: UpdateTaskModelType){
         return instance.put<ResponseType<ItemTaskType>>(`/todo-lists/${toDoListId}/tasks/${taskId}`, {...model})
     }
 }

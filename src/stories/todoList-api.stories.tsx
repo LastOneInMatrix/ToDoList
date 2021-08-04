@@ -209,7 +209,7 @@ export const ChangeTaskTitleTask = () => {
             startDate:  null,
             deadline:  null
         }
-        TodoListAPI.changeTaskTitle(todoListId, taskId, model).then(res => {
+        TodoListAPI.updateTask(todoListId, taskId, model).then(res => {
             setState(res.data)
         })
     }
