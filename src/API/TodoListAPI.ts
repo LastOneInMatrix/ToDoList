@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//types
 export type TodoListType = {
     id: string,
     title: string,
@@ -21,14 +22,6 @@ export enum TaskPriorities {
 }
 type ItemTodoListType = {item: TodoListType};
 type ItemTaskType = {item: TaskType}
-
-
-type ResponseType<T = {}> = {
-    "data": T
-    "messages": Array<string>,
-    "fieldsErrors"?:Array<string>,
-    "resultCode": number
-};
 export type UpdateTaskModelType = {
     title: string
     description: string
@@ -37,7 +30,17 @@ export type UpdateTaskModelType = {
     startDate:  null | string
     deadline:  null | string
 }
-
+type GetTaskResponseType = {
+    error: string,
+    totalCount: number,
+    items: TaskType[]
+}
+type ResponseType<T = {}> = {
+    "data": T
+    "messages": Array<string>,
+    "fieldsErrors"?:Array<string>,
+    "resultCode": number
+};
 export type TaskType = {
     description: string
     title: string
@@ -50,25 +53,19 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-type GetTaskResponseType = {
-    error: string,
-    totalCount: number,
-    items: TaskType[]
-}
 
+
+//api
 const settings = {
     withCredentials: true,
     headers: {
         'api-key': '84c6307f-7e5a-4636-a098-ea1e899ebf82'
     }
 }
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
-
-
 export const TodoListAPI = {
     getTodoList() {
         return instance.get<Array<TodoListType>>(`todo-lists`)

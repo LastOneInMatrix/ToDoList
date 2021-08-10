@@ -4,8 +4,8 @@ import {action} from "@storybook/addon-actions";
 import {Provider} from "react-redux";
 
 import App from './App';
-import {store} from "./state/store";
-import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import {store} from "../state/store";
+import {ReduxStoreProviderDecorator} from "../temp/ReduxStoreProviderDecorator";
 
 
 export default {
