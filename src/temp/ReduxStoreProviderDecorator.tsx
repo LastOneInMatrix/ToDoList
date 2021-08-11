@@ -5,10 +5,12 @@ import {v1} from "uuid";
 import {todolistsReducer} from "../state/todolists-reducer";
 import {tasksReducer} from "../state/tasks-reducer";
 import {combineReducers, createStore} from "redux";
+import {appReducer} from "../state/app-reducer";
 
 const rootReducer = combineReducers({
     todoLists: todolistsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    appReducer: appReducer
 })
 
 const initialGlobalState = {
@@ -25,6 +27,10 @@ const initialGlobalState = {
             {id: v1(), title: "Milk", isDone: true},
             {id: v1(), title: "React Book", isDone: true}
         ]
+    },
+    app: {
+        error: null,
+        status: 'idle'
     }
 };
 //@ts-ignore

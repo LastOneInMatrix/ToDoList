@@ -1,13 +1,10 @@
 import {TasksStateType} from '../app/App';
-import {v1} from 'uuid';
-import {
-    TaskActionsType
-} from './todolists-reducer';
+import {TodoListActionsType} from './todolists-reducer';
 import {TaskPriorities, TaskStatuses, TaskType, TodoListAPI, UpdateTaskModelType} from '../API/TodoListAPI'
 import {Dispatch} from "redux";
 import {AppRootStateType, getStateType} from "./store";
-
-
+import {setErrorAC, SetErrorActionType, setStatusAC, SetStatusActionType} from "./app-reducer";
+import {handleNetworkServerError, handleServerAppError} from "../utils/error-utils";
 
 
 const initialState: TasksStateType = {
@@ -58,33 +55,43 @@ export const setTaskAC = (tasks: Array<TaskType>, todolistId: string ) => ({type
 
 
 //thunk
-export const fetchTaskTCreator = (todoListId: string) =>  (dispatch: Dispatch, getState: getStateType) => {
+export const fetchTaskTCreator = (todoListId: string) =>  (dispatch: Dispatch<ThunkType>, getState: getStateType) => {
+    dispatch(setStatusAC('loading'))
         TodoListAPI.getTask(todoListId)
             .then(res => {
                 dispatch(setTaskAC(res.data.items, todoListId))
+                dispatch(setStatusAC('succeeded'))
             })
+            .catch(err => handleNetworkServerError(dispatch,err))
 }
-export const deleteTaskTCreator = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+export const deleteTaskTCreator = (taskId: string, todolistId: string) => (dispatch: Dispatch<ThunkType>) => {
+    dispatch(setStatusAC('loading'))
             TodoListAPI.deleteTask(todolistId, taskId)
                 .then(res => {
                     if(res.data.resultCode === 0) {
                         dispatch(removeTaskAC(taskId,todolistId))
+                        dispatch(setStatusAC('succeeded'))
                     }
                 })
+                .catch(err => handleNetworkServerError(dispatch,err))
 }
-export const addTaskThunkTCreator = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+export const addTaskThunkTCreator = (title: string, todolistId: string) => (dispatch: Dispatch<ThunkType>) => {
+    dispatch(setStatusAC('loading'))
         TodoListAPI.createTask(todolistId, title)
             .then(res => {
                 if(res.data.resultCode === 0) {
                     dispatch(addTaskAC(res.data.data.item))
+                    dispatch(setStatusAC('succeeded'))
                 }
                 else {
-                  throw new Error
+                    handleServerAppError(dispatch, res.data)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(error => {
+                handleNetworkServerError(dispatch, error)
+            })
 }
-export const updateTaskTitleTCreator = (taskId: string, changeDomainModel:UpdateDomainTaskModelTypeForMe, todolistId: string) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
+export const updateTaskTitleTCreator = (taskId: string, changeDomainModel:UpdateDomainTaskModelTypeForMe, todolistId: string) => (dispatch: Dispatch<ThunkType>, getState: () => AppRootStateType) => {
         const state = getState();
         const task = state.tasks[todolistId].find(ts => ts.id === taskId);
         if(!task) {
@@ -100,12 +107,20 @@ export const updateTaskTitleTCreator = (taskId: string, changeDomainModel:Update
             deadline:  task.deadline,
             ...changeDomainModel
         }
-
+    dispatch(setStatusAC('loading'))
         TodoListAPI.updateTask(todolistId,taskId, model)
             .then(res => {
                 if(res.data.resultCode === 0) {
                     dispatch(UpdateTaskAC(taskId, model, todolistId));
+                    dispatch(setStatusAC('succeeded'));
                 }
+                else {
+
+                }
+            })
+            .catch(error => {
+                dispatch(setErrorAC(error))
+                dispatch(setStatusAC('failed'))
             })
 }
 
@@ -123,7 +138,7 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof UpdateTaskAC>
     | ReturnType<typeof setTaskAC>
-    | TaskActionsType
+    | TodoListActionsType
 
-
+export type ThunkType = ActionsType | SetErrorActionType | SetStatusActionType
 

@@ -1,23 +1,13 @@
-import React, {useCallback, useEffect} from 'react'
+import React from 'react'
 import './App.css';
-import {Todolist} from '../Components/Todolist/Todolist';
-import {AddItemForm} from '../Components/AddItemForms/AddItemForm';
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {
-    addTodolistTCreator,
-    changeTodolistFilterAC,
-    changeTodolistTitleTCreator,
-    fetchTodoListThunk,
-    FilterValuesType,
-    removeTodolistTCreator,
-    TodolistDomainType
-} from '../state/todolists-reducer'
-import {addTaskThunkTCreator, deleteTaskTCreator, updateTaskTitleTCreator} from '../state/tasks-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../state/store';
-import {TaskStatuses, TaskType} from '../API/TodoListAPI'
+import {TaskType} from '../API/TodoListAPI'
 import {TodolistContainer} from "../Components/Todolist/TodolistContainer";
+import {ErrorSnackBar} from "../Components/ErrorSnackBar/ErrorSnackBar";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
+import {RequestStatusType} from "../state/app-reducer";  //ctr + alt + o удалить все неиспользуемые
 
 
 export type TasksStateType = {
@@ -27,8 +17,9 @@ export type TasksStateType = {
 
 function App() {
 
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.appReducer.status)
 
-
+        console.log(status)
     return (
         <div className="App">
             <AppBar position="static">
@@ -43,8 +34,10 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
+                {status === 'loading' && <LinearProgress color="secondary" /> }
                 <TodolistContainer/>
             </Container>
+            <ErrorSnackBar/>
         </div>
     );
 }

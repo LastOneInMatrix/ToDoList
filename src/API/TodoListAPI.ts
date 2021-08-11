@@ -35,7 +35,7 @@ type GetTaskResponseType = {
     totalCount: number,
     items: TaskType[]
 }
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     "data": T
     "messages": Array<string>,
     "fieldsErrors"?:Array<string>,

@@ -6,8 +6,10 @@ import {Delete} from '@material-ui/icons'
 import {Task} from '../Task/Task'
 import {TaskStatuses, TaskType} from '../../API/TodoListAPI'
 import {FilterValuesType} from '../../state/todolists-reducer'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchTaskTCreator, setTaskAC} from "../../state/tasks-reducer";
+import {AppRootStateType} from "../../state/store";
+import {RequestStatusType} from "../../state/app-reducer";
 
 type PropsType = {
     id: string
@@ -21,6 +23,7 @@ type PropsType = {
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
     filter: FilterValuesType
+    entityStatus: RequestStatusType
 
 }
 
@@ -58,11 +61,11 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={removeTodolist}>
-                <Delete/>
+            <IconButton onClick={removeTodolist} disabled={props.entityStatus === 'loading'}>
+                <Delete />
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} entityStatus={props.entityStatus}/>
         <div>
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.id}
