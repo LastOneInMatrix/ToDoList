@@ -1,7 +1,14 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
 import { useFormik } from 'formik';
+import {useDispatch, useSelector} from "react-redux";
+import {loginInRequestTC} from "./loginReducer";
+import {AppRootStateType} from "../../state/store";
+import {Redirect} from "react-router-dom";
+
 export const Login = () => {
+    const dispatch = useDispatch();
+    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn)
     const validate = (values: any) => {
         const errors: any = {};
         if (!values.password) {
@@ -20,13 +27,17 @@ export const Login = () => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(loginInRequestTC(values));
         },
         validate
     });
+
+    if (isLoginIn) {
+       return  <Redirect to={'/'}/>
+    }
     return <Grid container justify="center">
         <Grid item xs={4}>
             <form onSubmit={formik.handleSubmit}>
@@ -53,6 +64,7 @@ export const Login = () => {
                             label="Password"
                             margin="normal"
                             {...formik.getFieldProps('password')}
+                            onBlur={formik.handleBlur}
                         />
                         {formik.errors.password && <pre style={{color: 'red'}}>{formik.errors.password}</pre>}
                         <FormControlLabel

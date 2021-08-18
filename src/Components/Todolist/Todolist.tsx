@@ -6,9 +6,8 @@ import {Delete} from '@material-ui/icons'
 import {Task} from '../Task/Task'
 import {TaskStatuses, TaskType} from '../../API/TodoListAPI'
 import {FilterValuesType} from '../../state/todolists-reducer'
-import {useDispatch, useSelector} from "react-redux";
-import {fetchTaskTCreator, setTaskAC} from "../../state/tasks-reducer";
-import {AppRootStateType} from "../../state/store";
+import {useDispatch} from "react-redux";
+import {fetchTaskTCreator} from "../../state/tasks-reducer";
 import {RequestStatusType} from "../../state/app-reducer";
 
 type PropsType = {

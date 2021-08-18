@@ -35,7 +35,7 @@ type GetTaskResponseType = {
     totalCount: number,
     items: TaskType[]
 }
-export type ResponseType<T = {}> = {
+export type     ResponseType<T = {}> = {
     "data": T
     "messages": Array<string>,
     "fieldsErrors"?:Array<string>,
@@ -53,7 +53,17 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-
+export type LoginDataType = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+    captcha?: string;
+}
+export type authMeDataType = {
+    id: number;
+    email: string;
+    login: string;
+}
 
 //api
 const settings = {
@@ -93,5 +103,16 @@ export const TodoListAPI = {
     },
     updateTask(toDoListId: string, taskId: string, model: UpdateTaskModelType){
         return instance.put<ResponseType<ItemTaskType>>(`/todo-lists/${toDoListId}/tasks/${taskId}`, {...model})
+    }
+}
+export const LoginAPI = {
+    loginIn(data: LoginDataType) {
+        return instance.post<ResponseType<{userId: number}>>('/auth/login', data)
+    },
+    loginOut() {
+        return instance.delete<ResponseType>('/auth/login');
+    },
+    me() {
+        return instance.get<ResponseType<authMeDataType>>('/auth/me');
     }
 }

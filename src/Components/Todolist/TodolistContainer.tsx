@@ -1,6 +1,8 @@
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
 import {AppRootStateType} from "../../state/store";
+import {Grid, Paper} from "@material-ui/core";
 import {
     addTodolistTCreator,
     changeTodolistFilterAC, changeTodolistTitleTCreator,
@@ -11,18 +13,23 @@ import {
 import {addTaskThunkTCreator, deleteTaskTCreator, updateTaskTitleTCreator} from "../../state/tasks-reducer";
 import {TaskStatuses} from "../../API/TodoListAPI";
 import {TasksStateType} from "../../app/App";
-import {Grid, Paper} from "@material-ui/core";
+
 import {AddItemForm} from "../AddItemForms/AddItemForm";
 import {Todolist} from "./Todolist";
  type TodolistContainerPropsType = {
 
  }
 export const TodolistContainer: React.FC<TodolistContainerPropsType> = (props) => {
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const dispatch = useDispatch();
 
+
     useEffect(() => {
+        if (!isLoginIn) {
+            return
+        }
         dispatch(fetchTodoListThunk())
         // fetchTodoListThunk(dispatch)
     }, [])
@@ -57,6 +64,10 @@ export const TodolistContainer: React.FC<TodolistContainerPropsType> = (props) =
         const thunk = addTodolistTCreator(title);
         dispatch(thunk);
     }, [dispatch]);
+
+    if(!isLoginIn) {
+        return <Redirect to={'login'}/>
+    }
      return <>
          <Grid container style={{padding: "20px"}}>
              <AddItemForm addItem={addTodolist}/>
